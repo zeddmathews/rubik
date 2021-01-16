@@ -1,6 +1,6 @@
 import sys
 
-from rotations import *
+from move_handler import *
 
 av = sys.argv
 
@@ -93,36 +93,35 @@ def display_scrambled_cube(moves):
 
 	for move in moves:
 		if (move.upper().startswith('F')):
-			if (len(move) == 1):
-				rotated_front, rotated_left, rotated_up, rotated_right, rotated_down = front_cw(rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
+			front_handler(move, rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
 
 		if (move.upper().startswith('B')):
-			if (len(move) == 1):
-				rotated_back, rotated_left, rotated_up, rotated_right, rotated_down = back_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
+			back_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
 
 		if (move.upper().startswith('L')):
-			if (len(move) == 1):
-				rotated_back, rotated_left, rotated_up, rotated_front, rotated_down = left_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front)
+			left_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front)
 
 		if (move.upper().startswith('R')):
-			if (len(move) == 1):
-				rotated_back, rotated_right, rotated_up, rotated_front, rotated_down = right_cw(rotated_back, back, rotated_right, down, rotated_up, right, rotated_front, up, rotated_down, front)
+			right_handler(move, rotated_back, back, rotated_right, down, rotated_up, right, rotated_front, up, rotated_down, front)
 
 		if (move.upper().startswith('U')):
-			if (len(move) == 1):
-				rotated_back, rotated_right, rotated_up, rotated_front, rotated_left = up_cw(rotated_back, back, rotated_right, left, rotated_up, right, rotated_front, up, rotated_left, front)
-		
-		if (move.upper().startswith('D')):
-			if (len(move) == 1):
-				rotated_back, rotated_right, rotated_down, rotated_front, rotated_left = down_cw(rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)
+			up_handler(move, rotated_back, back, rotated_right, left, rotated_up, right, rotated_front, up, rotated_left, front)
 
-	# print(f'face: {base_cube[0]}')
-	# for face in base_cube:
-	# 	for row in face:
-	# 		print(f'cube: {row}')
-	# for face in rotated_cube:
-	# 	for row in face:
-	# 		print(f'rotated: {row}')
+		if (move.upper().startswith('D')):
+			down_handler(move, rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)
+
+	consolidated_base_cube = [front, back, right, left, up, down]
+	consolidated_rotated_cube = [rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down]
+
+	for face in consolidated_base_cube:
+		for row in face:
+			print(row)
+		print('')
+	print('\n')
+	for face in consolidated_rotated_cube:
+		for row in face:
+			print(row)
+		print('')
 
 def rubik(av):
 	av.pop(0) #remove rubik.py from list

@@ -55,9 +55,9 @@ def back_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_ri
 	rotated_right[2][2] = down[2][0]
 
 	# up
-	rotated_up[0][0] = right[2][2]
+	rotated_up[0][2] = right[2][2]
 	rotated_up[0][1] = right[1][2]
-	rotated_up[0][2] = right[0][2]
+	rotated_up[0][0] = right[0][2]
 
 	#left
 	rotated_left[0][0] = up[0][2]
@@ -85,6 +85,26 @@ def left_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_fr
 
 	rotated_left[1][0] = left[2][1]
 
+	# back
+	rotated_back[0][2] = down[2][0]
+	rotated_back[1][2] = down[1][0]
+	rotated_back[1][2] = down[0][0]
+
+	# up
+	rotated_up[0][0] = back[2][2]
+	rotated_up[1][0] = back[1][2]
+	rotated_up[2][0] = back[0][2]
+
+	# front
+	rotated_front[0][0] = up[0][0]
+	rotated_front[1][0] = up[1][0]
+	rotated_front[2][0] = up[2][0]
+
+	# down
+	rotated_down[0][0] = front[0][0]
+	rotated_down[1][0] = front[1][0]
+	rotated_down[2][0] = front[2][0]
+
 	return rotated_back, rotated_left, rotated_up, rotated_front, rotated_down
 
 def right_cw(rotated_back, back, rotated_right, down, rotated_up, right, rotated_front, up, rotated_down, front):
@@ -100,6 +120,26 @@ def right_cw(rotated_back, back, rotated_right, down, rotated_up, right, rotated
 	rotated_right[2][0] = right[2][2]
 
 	rotated_right[1][0] = right[2][1]
+
+	# front
+	rotated_front[0][2] = down[0][2]
+	rotated_front[1][2] = down[1][2]
+	rotated_front[2][2] = down[2][2]
+
+	# up
+	rotated_up[2][2] = front[2][2]
+	rotated_up[1][2] = front[1][2]
+	rotated_up[0][2] = front[0][2]
+
+	# back
+	rotated_back[0][0] = up[2][2]
+	rotated_back[1][0] = up[1][2]
+	rotated_back[2][0] = up[0][2]
+
+	# down
+	rotated_down[0][2] = front[2][0]
+	rotated_down[1][2] = front[1][0]
+	rotated_down[2][2] = front[0][0]
 
 	return rotated_back, rotated_right, rotated_up, rotated_front, rotated_down
 

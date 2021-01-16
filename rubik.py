@@ -86,28 +86,28 @@ def display_scrambled_cube(moves):
 		['7orange', '8orange', '9orange'] #edge with front
 	]
 	rotated_down = [
-		['1red', '2red', '3red'], #edge with back
+		['1red', '2red', '3red'], #edge with front
 		['4red', '5red', '6red'],
-		['7red', '8red', '9red'] #edge with front
+		['7red', '8red', '9red'] #edge with back
 	]
 
 	for move in moves:
 		if (move.upper().startswith('F')):
 			front_handler(move, rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
 
-		if (move.upper().startswith('B')):
+		elif (move.upper().startswith('B')):
 			back_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
 
-		if (move.upper().startswith('L')):
+		elif (move.upper().startswith('L')):
 			left_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front)
 
-		if (move.upper().startswith('R')):
+		elif (move.upper().startswith('R')):
 			right_handler(move, rotated_back, back, rotated_right, down, rotated_up, right, rotated_front, up, rotated_down, front)
 
-		if (move.upper().startswith('U')):
+		elif (move.upper().startswith('U')):
 			up_handler(move, rotated_back, back, rotated_right, left, rotated_up, right, rotated_front, up, rotated_left, front)
 
-		if (move.upper().startswith('D')):
+		elif (move.upper().startswith('D')):
 			down_handler(move, rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)
 
 	consolidated_base_cube = [front, back, right, left, up, down]

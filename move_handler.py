@@ -53,7 +53,7 @@ def up_handler(move, rotated_back, back, rotated_right, left, rotated_up, right,
 	elif (len(move) == 2 and move[1] == '2'):
 		rotated_back, rotated_right, rotated_up, rotated_front, rotated_left = up_180(rotated_back, back, rotated_right, left, rotated_up, right, rotated_front, up, rotated_left, front)
 		print('180')
-
+ 
 def down_handler(move, rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front):
 	if (len(move) == 1):
 		rotated_back, rotated_right, rotated_down, rotated_front, rotated_left = down_cw(rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)

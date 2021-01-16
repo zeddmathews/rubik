@@ -91,64 +91,30 @@ def display_scrambled_cube(moves):
 		['7red', '8red', '9red'] #edge with front
 	]
 
-	#[row][block]
 	for move in moves:
 		if (move.upper().startswith('F')):
 			if (len(move) == 1):
-				rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right = front_cw(rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
+				rotated_front, rotated_left, rotated_up, rotated_right, rotated_down = front_cw(rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
 
 		if (move.upper().startswith('B')):
 			if (len(move) == 1):
-				rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right = back_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
+				rotated_back, rotated_left, rotated_up, rotated_right, rotated_down = back_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
 
 		if (move.upper().startswith('L')):
 			if (len(move) == 1):
-				rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front = left_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front)
+				rotated_back, rotated_left, rotated_up, rotated_front, rotated_down = left_cw(rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front)
 
 		if (move.upper().startswith('R')):
 			if (len(move) == 1):
-				# right
-				rotated_right[0][0] = right[2][0]
-				rotated_right[0][1] = right[1][0]
-				rotated_right[0][2] = right[0][0]
-
-				rotated_right[1][2] = right[0][1]
-
-				rotated_right[2][2] = right[0][2]
-				rotated_right[2][1] = right[1][2]
-				rotated_right[2][0] = right[2][2]
-
-				rotated_right[1][0] = right[2][1]
+				rotated_back, rotated_right, rotated_up, rotated_front, rotated_down = right_cw(rotated_back, back, rotated_right, down, rotated_up, right, rotated_front, up, rotated_down, front)
 
 		if (move.upper().startswith('U')):
 			if (len(move) == 1):
-				# up
-				rotated_up[0][0] = up[2][0]
-				rotated_up[0][1] = up[1][0]
-				rotated_up[0][2] = up[0][0]
-
-				rotated_up[1][2] = up[0][1]
-
-				rotated_up[2][2] = up[0][2]
-				rotated_up[2][1] = up[1][2]
-				rotated_up[2][0] = up[2][2]
-
-				rotated_up[1][0] = up[2][1]
-
+				rotated_back, rotated_right, rotated_up, rotated_front, rotated_left = up_cw(rotated_back, back, rotated_right, left, rotated_up, right, rotated_front, up, rotated_left, front)
+		
 		if (move.upper().startswith('D')):
 			if (len(move) == 1):
-				# down
-				rotated_down[0][0] = down[2][0]
-				rotated_down[0][1] = down[1][0]
-				rotated_down[0][2] = down[0][0]
-
-				rotated_down[1][2] = down[0][1]
-
-				rotated_down[2][2] = down[0][2]
-				rotated_down[2][1] = down[1][2]
-				rotated_down[2][0] = down[2][2]
-
-				rotated_down[1][0] = down[2][1]
+				rotated_back, rotated_right, rotated_down, rotated_front, rotated_left = down_cw(rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)
 
 	# print(f'face: {base_cube[0]}')
 	# for face in base_cube:
@@ -157,7 +123,6 @@ def display_scrambled_cube(moves):
 	# for face in rotated_cube:
 	# 	for row in face:
 	# 		print(f'rotated: {row}')
-
 
 def rubik(av):
 	av.pop(0) #remove rubik.py from list

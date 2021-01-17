@@ -1,6 +1,7 @@
 import sys
 
 from move_handler import *
+from copy import deepcopy
 
 av = sys.argv
 
@@ -90,7 +91,7 @@ def display_scrambled_cube(moves):
 		['4red', '5red', '6red'],
 		['7red', '8red', '9red'] #edge with back
 	]
-
+	i = 1
 	for move in moves:
 		if (move.upper().startswith('F')):
 			front_handler(move, rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
@@ -109,19 +110,32 @@ def display_scrambled_cube(moves):
 
 		elif (move.upper().startswith('D')):
 			down_handler(move, rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)
+		front = deepcopy(rotated_front)
+		back = deepcopy(rotated_back)
+		right = deepcopy(rotated_right)
+		left = deepcopy(rotated_left)
+		up = deepcopy(rotated_up)
+		down = deepcopy(rotated_down)
+		# print(f'{i} rotation: {front}\n')
+		# print(f'{i} rotation: {back}\n')
+		# print(f'{i} rotation: {right}\n')
+		# print(f'{i} rotation: {left}\n')
+		# print(f'{i} rotation: {up}\n')
+		# print(f'{i} rotation: {down}\n')
+		consolidated_base_cube = [front, back, right, left, up, down]
+		# consolidated_rotated_cube = [rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down]
+		for face in consolidated_base_cube:
+			for row in face:
+				print(f'{i} rotation: {row}')
+			print('')
+		print('\n')
+		# for face in consolidated_rotated_cube:
+		# 	for row in face:
+		# 		print(f'{i} rotation: {row}')
+		# 	print('')
+		i += 1
 
-	consolidated_base_cube = [front, back, right, left, up, down]
-	consolidated_rotated_cube = [rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down]
 
-	for face in consolidated_base_cube:
-		for row in face:
-			print(row)
-		print('')
-	print('\n')
-	for face in consolidated_rotated_cube:
-		for row in face:
-			print(row)
-		print('')
 
 def rubik(av):
 	av.pop(0) #remove rubik.py from list

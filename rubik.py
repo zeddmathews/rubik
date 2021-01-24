@@ -5,15 +5,16 @@ from copy import deepcopy
 
 av = sys.argv
 
+
+
 def limit_argv(av):
 	if (len(av) != 2):
 		sys.exit('Invalid number of args')
 
-def valid_rotations(av):
+def valid_rotations(cube, front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down):
 	valid_notations = ['F', 'R', 'U', 'B', 'L', 'D'] #front, right, up, back, left, down
 	valid_prime = ['\'', '2'] #
 	err = []
-	cube = av[0].split()
 	print(f'cube: {cube}')
 	for notation in cube:
 		if (len(notation) > 2):
@@ -27,14 +28,104 @@ def valid_rotations(av):
 		for error in err:
 			print(f'Invalid: {error}')
 		sys.exit()
-	display_scrambled_cube(cube)
+	front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down = cube_handler(cube, front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down)
+	return front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down
 
-def display_scrambled_cube(moves):
+def cube_handler(moves, front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down):
+	i = 1
+	for move in moves:
+		if (move.upper().startswith('F')):
+			front_handler(move, rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
+
+		elif (move.upper().startswith('B')):
+			back_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
+
+		elif (move.upper().startswith('L')):
+			left_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front)
+
+		elif (move.upper().startswith('R')):
+			right_handler(move, rotated_back, back, rotated_right, down, rotated_up, right, rotated_front, up, rotated_down, front)
+
+		elif (move.upper().startswith('U')):
+			up_handler(move, rotated_back, back, rotated_right, left, rotated_up, right, rotated_front, up, rotated_left, front)
+
+		elif (move.upper().startswith('D')):
+			down_handler(move, rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)
+		front = deepcopy(rotated_front)
+		back = deepcopy(rotated_back)
+		right = deepcopy(rotated_right)
+		left = deepcopy(rotated_left)
+		up = deepcopy(rotated_up)
+		down = deepcopy(rotated_down)
+		# print(f'{i} rotation: {front}\n')
+		# print(f'{i} rotation: {back}\n')
+		# print(f'{i} rotation: {right}\n')
+		# print(f'{i} rotation: {left}\n')
+		# print(f'{i} rotation: {up}\n')
+		# print(f'{i} rotation: {down}\n')
+		consolidated_base_cube = [front, back, right, left, up, down]
+		faces = ["front", "back", "right", "left", "up", "down"]
+		i = 0
+		# consolidated_rotated_cube = [rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down]
+		for face in consolidated_base_cube:
+			for row in face:
+				print(f'{i} {faces[i]}-rotation: {row}')
+			print('')
+			i +=1
+		# print('\n')
+		# for face in consolidated_rotated_cube:
+		# 	for row in face:
+		# 		print(f'{i} rotation: {row}')
+		# 	print('')
+		i += 1
+	return front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down
+
+def solve(moves):
+	i = 0
+	while (i < len(moves)):
+		if (moves[i].upper().startswith('F')):
+			if (len(moves[i]) == 1):
+				moves[i] = 'F\''
+			elif (len(moves[i]) == 2 and moves[i][1] == '\''):
+				moves[i] = 'F'
+		elif (moves[i].upper().startswith('B')):
+			if (len(moves[i]) == 1):
+				moves[i] = 'B\''
+			elif (len(moves[i]) == 2 and moves[i][1] == '\''):
+				moves[i] = 'B'
+		elif (moves[i].upper().startswith('L')):
+			if (len(moves[i]) == 1):
+				moves[i] = 'L\''
+			elif (len(moves[i]) == 2 and moves[i][1] == '\''):
+				moves[i] = 'L'
+		elif (moves[i].upper().startswith('R')):
+			if (len(moves[i]) == 1):
+				moves[i] = 'R\''
+			elif (len(moves[i]) == 2 and moves[i][1] == '\''):
+				moves[i] = 'R'
+		elif (moves[i].upper().startswith('U')):
+			if (len(moves[i]) == 1):
+				moves[i] = 'U\''
+			elif (len(moves[i]) == 2 and moves[i][1] == '\''):
+				moves[i] = 'U'
+		elif (moves[i].upper().startswith('D')):
+			if (len(moves[i]) == 1):
+				moves[i] = 'D\''
+			elif (len(moves[i]) == 2 and moves[i][1] == '\''):
+				moves[i] = 'D'
+		i += 1
+	moves = moves[::-1]
+	return moves
+	# print(moves)
+
+
+
+def rubik(av):
 	front = [
-		['1white', '2white', '3white'], #edge with up
-		['4white', '5white', '6white'],
-		['7white', '8white', '9white'] #edge with down
-	]
+			['1white', '2white', '3white'], #edge with up
+			['4white', '5white', '6white'],
+			['7white', '8white', '9white'] #edge with down
+		]
 	back = [
 		['1yellow', '2yellow', '3yellow'], #edge with up
 		['4yellow', '5yellow', '6yellow'],
@@ -91,56 +182,12 @@ def display_scrambled_cube(moves):
 		['4red', '5red', '6red'],
 		['7red', '8red', '9red'] #edge with back
 	]
-	i = 1
-	for move in moves:
-		if (move.upper().startswith('F')):
-			front_handler(move, rotated_front, front, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
-
-		elif (move.upper().startswith('B')):
-			back_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_right, up, rotated_down, right)
-
-		elif (move.upper().startswith('L')):
-			left_handler(move, rotated_back, back, rotated_left, down, rotated_up, left, rotated_front, up, rotated_down, front)
-
-		elif (move.upper().startswith('R')):
-			right_handler(move, rotated_back, back, rotated_right, down, rotated_up, right, rotated_front, up, rotated_down, front)
-
-		elif (move.upper().startswith('U')):
-			up_handler(move, rotated_back, back, rotated_right, left, rotated_up, right, rotated_front, up, rotated_left, front)
-
-		elif (move.upper().startswith('D')):
-			down_handler(move, rotated_back, back, rotated_right, left, rotated_down, right, rotated_front, down, rotated_left, front)
-		front = deepcopy(rotated_front)
-		back = deepcopy(rotated_back)
-		right = deepcopy(rotated_right)
-		left = deepcopy(rotated_left)
-		up = deepcopy(rotated_up)
-		down = deepcopy(rotated_down)
-		# print(f'{i} rotation: {front}\n')
-		# print(f'{i} rotation: {back}\n')
-		# print(f'{i} rotation: {right}\n')
-		# print(f'{i} rotation: {left}\n')
-		# print(f'{i} rotation: {up}\n')
-		# print(f'{i} rotation: {down}\n')
-		consolidated_base_cube = [front, back, right, left, up, down]
-		# consolidated_rotated_cube = [rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down]
-		for face in consolidated_base_cube:
-			for row in face:
-				print(f'{i} rotation: {row}')
-			print('')
-		print('\n')
-		# for face in consolidated_rotated_cube:
-		# 	for row in face:
-		# 		print(f'{i} rotation: {row}')
-		# 	print('')
-		i += 1
-
-
-
-def rubik(av):
 	av.pop(0) #remove rubik.py from list
-	valid_rotations(av)
-	print(f'sum\'ing')
+	cube = av[0].split()
+	front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down = valid_rotations(cube, front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down)
+	cube = solve(cube)
+	cube_handler(cube, front, back, right, left, up, down, rotated_front, rotated_back, rotated_right, rotated_left, rotated_up, rotated_down)
+	print(f'sCeakwins: {" ".join(cube)}')
 
 if (__name__ == '__main__'):
 	limit_argv(av)
